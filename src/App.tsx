@@ -2,7 +2,8 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { Home, SignIn, SignUp, Top, SelectRoom } from './templates';
+
+import { CreateRoom, Home, SignIn, SignUp, Room,  Top, Profile, SelectRoom } from './templates';
 
 function App() {
     return (
@@ -12,7 +13,14 @@ function App() {
                 <Route exact path={'/signup'} component={SignUp} />
                 <Route exact path={'/signin'} component={SignIn} />
                 <Route exact path={'/home'} component={Home} />
+
                 <Route exact path={'/select'} component={SelectRoom} />
+
+                <Route exact path={'/room'} component={Room} />
+
+                <Route exact path={'/createroom'} component={CreateRoom} />
+                <Route exact path={'/profile'} component={Profile} />
+
             </Switch>
         </BrowserRouter>
     );
