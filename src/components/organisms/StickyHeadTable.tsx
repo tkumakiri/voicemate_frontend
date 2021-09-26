@@ -1,0 +1,176 @@
+import * as React from 'react';
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import { Button } from '@material-ui/core';
+import { styled } from '@mui/material/styles';
+import { RowData } from '../../templates/Home';
+
+
+
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: '#ffcc80',
+        color: theme.palette.common.black,
+    },
+    [`&.${tableCellClasses.body}`]: {
+        backgroundColor: '#fff3e0',
+        fontSize: 14,
+    },
+}));
+
+type Column = {
+    id: 'name' | 'member' | 'gender' | 'age' | 'tags' | 'roomId';
+    label: string;
+    minWidth?: number;
+    align?: 'center' | 'right';
+    format?: (value: number) => string;
+}
+
+const columns: readonly Column[] = [
+    { id: 'name', label: 'Name', minWidth: 170, align: 'center' },
+    { id: 'member', label: 'member', minWidth: 100, align: 'right', },
+
+    {
+        id: 'gender',
+        label: 'gender',
+        minWidth: 100,
+        align: 'right',
+    },
+    {
+        id: 'age',
+        label: 'age',
+        minWidth: 100,
+        align: 'right',
+    },
+    {
+        id: 'tags',
+        label: 'tags',
+        minWidth: 170,
+        align: 'center',
+    },
+    {
+        id: 'roomId',
+        label: 'EnterRoom',
+        minWidth: 80,
+        align: 'center',
+    },
+];
+
+type Data = {
+    name: string;
+    member: string;
+    gender: 'all' | 'male' | 'female';
+    age: string;
+    tags: string[]
+    roomId: string
+}
+
+function createData(
+    rowData: RowData
+): Data {
+    const name = rowData.name
+    const member = rowData.member_limit + '人中 ' + rowData.now_member + '人';
+    const gender = rowData.gender
+    const age = rowData.age_lower + '歳 ~ ' + rowData.age_upper + ' 歳'
+    const tags = rowData.tags
+    const roomId = rowData.roomId
+    return { name, member, gender, age, tags, roomId };
+}
+
+
+type Props = {
+    rowsData: Array<RowData>
+}
+
+export default function StickyHeadTable(props: Props) {
+
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const rows =
+        props.rowsData.map((row: RowData) => (
+            createData(row)
+        ))
+
+
+    const handleChangePage = (event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+
+    return (
+        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+            <TableContainer sx={{ maxHeight: 690 }}>
+                <Table stickyHeader aria-label="sticky table">
+                    <TableHead >
+                        <TableRow>
+                            {columns.map((column) => (
+                                <StyledTableCell
+                                    key={column.id}
+                                    align={column.align}
+                                    style={{ minWidth: column.minWidth }}
+                                >
+                                    {column.label}
+                                </StyledTableCell>
+                            ))}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row, index) => {
+                                return (
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+
+                                        {columns.map((column) => {
+                                            const value = row[column.id];
+
+                                            return (
+                                                <StyledTableCell key={column.id} align={column.align}>
+                                                    {column.id !== 'tags' && column.id !== 'roomId' ?
+                                                        value :
+                                                        column.id === 'tags' ? (
+                                                            <div className='flex items-center justify-center' >
+                                                                {row[column.id].map((tag: string, index: number) => (
+                                                                    <p className='p-1 m-1  bg-gray-300 rounded-3xl' key={index}>{tag}</p>
+                                                                ))}
+                                                            </div>
+                                                        ) : <Button>入室</Button>
+                                                    }
+
+                                                </StyledTableCell>
+
+                                            )
+                                        })}
+
+                                    </TableRow>
+                                );
+                            })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                sx={{
+                    backgroundColor: '#ffe0b2'
+                }}
+            />
+        </Paper >
+    );
+}
