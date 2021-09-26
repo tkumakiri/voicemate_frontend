@@ -1,52 +1,9 @@
-import { Checkbox, FormControlLabel, TextField } from "@mui/material";
-import { StickyHeadTable } from "../components/organisms";
+
 import { RowData } from "./Home";
-import { Box } from '@mui/system';
-import { useState } from "react";
-import { MultipleSelectTag, QuickFilteringGrid } from "../components/molucules";
+import { QuickFilteringGrid } from "../components/molucules";
 
 export default function SearchRoom() {
 
-    const [checkedAll, setCheckedAll] = useState(true);
-    const [checkedMale, setCheckedMale] = useState(false);
-    const [checkedFemale, setCheckedFemale] = useState(false);
-    const [gender, setGender] = useState('all');
-
-    const [tags, setTags] = useState<string[]>([]);
-
-    const alltags: string[] = [
-        'baseball',
-        'music live',
-        'soccer',
-        'basketball',
-        'tolk',
-        'werewolf',
-        'cinema',
-    ];
-    const handleChange = (gender: string) => {
-        switch (gender) {
-            case 'all':
-                setCheckedAll(true);
-                setCheckedMale(false);
-                setCheckedFemale(false);
-                setGender('all');
-                break;
-            case 'male':
-                setCheckedAll(false);
-                setCheckedMale(true);
-                setCheckedFemale(false);
-                setGender('male');
-                break;
-            case 'female':
-                setCheckedAll(false);
-                setCheckedMale(false);
-                setCheckedFemale(true);
-                setGender('female');
-                break;
-            default:
-                break;
-        }
-    };
 
     const rowsData: Array<RowData>
         = [
@@ -63,7 +20,7 @@ export default function SearchRoom() {
 
     return (
         <div className='bg-yellow-50' >
-            <div className='pt-8 text-3xl text-center' >部屋をさがす </div>
+            <div className='py-8 text-3xl text-center' >部屋をさがす </div>
             <QuickFilteringGrid rowsData={rowsData} />
 
         </div>
