@@ -12,7 +12,7 @@ export default function Top() {
     const classes = useStyles();
 
     return (
-        <div className="w-full h-screen">
+        <div className="w-full h-screen bg-yellow-50">
             <p className="pt-16 text-5xl text-center">voicemate</p>
             <div className="mt-16 flex items-center justify-center">
                 <Button className={classes.button} href="/signup">
@@ -21,14 +21,8 @@ export default function Top() {
                 <Button className={classes.button} href="signin">
                     <p className="text-3xl">signin</p>
                 </Button>
-
-                {/* test skyway */}
-                <Button className={classes.button} href="/skyway1">
-                    <p className="text-3xl">skyway1</p>
-                </Button>
-
-                <Button className={classes.button} href="/skyway2">
-                    <p className="text-3xl">skyway2</p>
+                <Button className={classes.button} href="/home">
+                    <p className="text-3xl">Home</p>
                 </Button>
             </div>
         </div>

@@ -27,79 +27,82 @@ export default function SignIn() {
     };
 
     return (
-        <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <Box
-                    style={{
-                        marginTop: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    }}
-                >
-                    <Avatar style={{ margin: 1, backgroundColor: 'secondary.main' }}>
-                        Lock
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Sign in
-                    </Typography>
-                    <Box
-                        component="form"
-                        onSubmit={handleSubmit}
-                        noValidate
-                        style={{ marginTop: 1 }}
-                    >
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
-                            autoComplete="email"
-                            autoFocus
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox value="remember" color="primary" />
-                            }
-                            label="Remember me"
-                        />
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            style={{ marginTop: 3, marginBottom: 2 }}
+        <div className='w-full h-screen bg-yellow-50' >
+            <div className='pt-16' >
+                <ThemeProvider theme={theme}>
+                    <Container component="main" maxWidth="xs">
+                        <CssBaseline />
+                        <Box
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                            }}
                         >
-                            Sign In
-                        </Button>
-                        <Grid container>
-                            <Grid item xs>
-                                <Link href="#" variant="body2">
-                                    Forgot password?
-                                </Link>
-                            </Grid>
-                            <Grid item>
-                                <Link href="/signup" variant="body2">
-                                    {"Don't have an account? Sign Up"}
-                                </Link>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </Box>
-            </Container>
-            <Footer />
-        </ThemeProvider>
+                            <Avatar style={{ margin: 1, backgroundColor: 'secondary.main' }}>
+                                Lock
+                            </Avatar>
+                            <Typography component="h1" variant="h5">
+                                Sign in
+                            </Typography>
+                            <Box
+                                component="form"
+                                onSubmit={handleSubmit}
+                                noValidate
+                                style={{ marginTop: 1 }}
+                            >
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Email Address"
+                                    name="email"
+                                    autoComplete="email"
+                                    autoFocus
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="current-password"
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox value="remember" color="primary" />
+                                    }
+                                    label="Remember me"
+                                />
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    style={{ marginTop: 3, marginBottom: 2 }}
+                                >
+                                    Sign In
+                                </Button>
+                                <Grid container>
+                                    <Grid item xs>
+                                        <Link href="#" variant="body2">
+                                            Forgot password?
+                                        </Link>
+                                    </Grid>
+                                    <Grid item>
+                                        <Link href="/signup" variant="body2">
+                                            {"Don't have an account? Sign Up"}
+                                        </Link>
+                                    </Grid>
+                                </Grid>
+                            </Box>
+                        </Box>
+                    </Container>
+                    <Footer />
+                </ThemeProvider>
+            </div>
+        </div>
     );
 }
