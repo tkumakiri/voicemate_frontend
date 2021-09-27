@@ -16,6 +16,7 @@ import { createTheme, Theme } from '@mui/material/styles';
 import { createStyles, makeStyles } from '@mui/styles';
 import { RowData } from '../../templates/Home';
 import { Button } from '@material-ui/core';
+import { useHistory } from 'react-router';
 
 function escapeRegExp(value: string): string {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
@@ -124,51 +125,6 @@ function createData(
   return { id, name, member, gender, age, tags, roomId };
 }
 
-const columns: GridColDef[] = [
-  {
-    field: 'name', headerName: 'Name', headerAlign: 'center', headerClassName: 'header', minWidth: 500, align: 'center'
-  },
-  { field: 'member', headerName: 'member', headerAlign: 'right', headerClassName: 'header', minWidth: 200, align: 'right', disableColumnMenu: true },
-
-  {
-    field: 'gender',
-    headerName: 'gender',
-    headerAlign: 'right',
-    headerClassName: 'header',
-    minWidth: 160,
-    align: 'right',
-  },
-  {
-    field: 'age',
-    headerName: 'age',
-    headerAlign: 'right',
-    headerClassName: 'header',
-    minWidth: 160,
-    align: 'right',
-    disableColumnMenu: true,
-  },
-  {
-    field: 'tags',
-    headerName: 'tags',
-    headerAlign: 'center',
-    headerClassName: 'header',
-    flex: 1,
-    align: 'center',
-    hideSortIcons: true,
-  },
-  {
-    field: 'roomId',
-    headerName: 'EnterRoom',
-    headerAlign: 'center',
-    headerClassName: 'header',
-    minWidth: 140,
-    align: 'center',
-    hideSortIcons: true,
-    disableColumnMenu: true,
-    renderCell: (params) => <Button>入室</Button>
-    // params.getValue(params.id, params.field) これでroomIdを取得できる
-  },
-];
 
 type Props = {
   rowsData: Array<RowData>
@@ -180,12 +136,59 @@ type AllData = {
 
 export default function QuickFilteringGrid(props: Props) {
   const classes = useStyles()
+  const history = useHistory()
+  const columns: GridColDef[] = [
+    {
+      field: 'name', headerName: 'Name', headerAlign: 'center', headerClassName: 'header', minWidth: 500, align: 'center'
+    },
+    { field: 'member', headerName: 'member', headerAlign: 'right', headerClassName: 'header', minWidth: 200, align: 'right', disableColumnMenu: true },
+
+    {
+      field: 'gender',
+      headerName: 'gender',
+      headerAlign: 'right',
+      headerClassName: 'header',
+      minWidth: 160,
+      align: 'right',
+    },
+    {
+      field: 'age',
+      headerName: 'age',
+      headerAlign: 'right',
+      headerClassName: 'header',
+      minWidth: 160,
+      align: 'right',
+      disableColumnMenu: true,
+    },
+    {
+      field: 'tags',
+      headerName: 'tags',
+      headerAlign: 'center',
+      headerClassName: 'header',
+      flex: 1,
+      align: 'center',
+      hideSortIcons: true,
+    },
+    {
+      field: 'roomId',
+      headerName: 'EnterRoom',
+      headerAlign: 'center',
+      headerClassName: 'header',
+      minWidth: 140,
+      align: 'center',
+      hideSortIcons: true,
+      disableColumnMenu: true,
+      renderCell: (params) => <Button onClick={() => history.push("/room/" + params.getValue(params.id, params.field))} >入室</Button>
+      // params.getValue(params.id, params.field) これでroomIdを取得できる
+    },
+  ];
   const data: AllData = {
     columns: columns,
     rows: props.rowsData.map((row: RowData, index: number) => (
       createData(row, index)
     ))
   }
+
 
   const [searchText, setSearchText] = React.useState('');
 

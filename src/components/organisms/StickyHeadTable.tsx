@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import { Button } from '@material-ui/core';
 import { styled } from '@mui/material/styles';
 import { RowData } from '../../templates/Home';
-import { generatePath } from "react-router";
+import { useHistory } from "react-router";
 
 
 
@@ -92,6 +92,7 @@ type Props = {
 
 export default function StickyHeadTable(props: Props) {
 
+    const history = useHistory()
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const rows =
@@ -146,7 +147,7 @@ export default function StickyHeadTable(props: Props) {
                                                                     <p className='p-1 m-1  bg-gray-300 rounded-3xl' key={index}>{tag}</p>
                                                                 ))}
                                                             </div>
-                                                        ) : <Button >入室</Button>
+                                                        ) : <Button onClick={() => history.push("/room/" + value)} >入室</Button>
                                                     }
 
                                                 </StyledTableCell>

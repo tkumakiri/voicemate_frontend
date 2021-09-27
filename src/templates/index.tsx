@@ -8,5 +8,5 @@ export { default as SelectRoom } from './SelectRoom';
 export { default as CreateRoom } from './CreateRoom';
 export { default as Profile } from './Profile';
 export { default as SearchRoom } from './SearchRoom';
-export { default as SkyWay } from './SkyWay';
+export { default as SkyWay } from '../components/organisms/SkyWay';
 

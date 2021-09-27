@@ -1,12 +1,18 @@
 import Peer, { SfuRoom } from "skyway-js";
 import React from "react";
+import { useParams } from "react-router";
 
 type VideoStream = {
     stream: MediaStream;
     peerId: string;
 };
+type Props = {
+    roomId: string
+}
 
-const SkyWay = (roomId: string) => {
+const SkyWay = (props: Props) => {
+
+    const roomId: string = props.roomId
     const peer = React.useRef(new Peer({ key: 'd2d9d44a-dc3e-40c1-9db9-e5de23d63d81' as string }));
     const [remoteVideo, setRemoteVideo] = React.useState<VideoStream[]>([]);
     const [localStream, setLocalStream] = React.useState<MediaStream>();
@@ -26,6 +32,7 @@ const SkyWay = (roomId: string) => {
             .catch((e) => {
                 console.log(e);
             });
+        return () => onEnd()
     }, []);
     const onStart = () => {
         console.log(room)
