@@ -23,7 +23,7 @@ export default function Top() {
                 </Button>
 
                 {/* test skyway */}
-                <Button className={classes.button} href="testskyway">
+                <Button className={classes.button} href="/skyway">
                     <p className="text-3xl">test</p>
                 </Button>
             </div>
