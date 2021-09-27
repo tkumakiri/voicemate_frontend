@@ -45,7 +45,7 @@ export default function Home() {
                     <p className="text-3xl">mypage</p>
                 </Button></div>
             <div className="flex items-center justify-center">
-                <Button className={classes.button} href="/selectroom">
+                <Button className={classes.button} href="/searchroom">
                     <p className="text-3xl">部屋をさがす</p>
                 </Button>
 
