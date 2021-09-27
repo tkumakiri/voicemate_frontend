@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import { Button } from '@material-ui/core';
 import { styled } from '@mui/material/styles';
 import { RowData } from '../../templates/Home';
-import { SkyWay } from '../../templates';
+import { generatePath } from "react-router";
 
 
 
