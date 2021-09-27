@@ -10,6 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import { Button } from '@material-ui/core';
 import { styled } from '@mui/material/styles';
 import { RowData } from '../../templates/Home';
+import { SkyWay } from '../../templates';
 
 
 
@@ -139,13 +140,13 @@ export default function StickyHeadTable(props: Props) {
                                                 <StyledTableCell key={column.id} align={column.align}>
                                                     {column.id !== 'tags' && column.id !== 'roomId' ?
                                                         value :
-                                                        column.id === 'tags' ? (
+                                                        column.id !== 'roomId' ? (
                                                             <div className='flex items-center justify-center' >
                                                                 {row[column.id].map((tag: string, index: number) => (
                                                                     <p className='p-1 m-1  bg-gray-300 rounded-3xl' key={index}>{tag}</p>
                                                                 ))}
                                                             </div>
-                                                        ) : <Button>入室</Button>
+                                                        ) : <Button >入室</Button>
                                                     }
 
                                                 </StyledTableCell>
