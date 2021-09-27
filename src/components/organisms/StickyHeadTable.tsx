@@ -111,8 +111,8 @@ export default function StickyHeadTable(props: Props) {
     };
 
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 690 }}>
+        <Paper style={{ width: '100%', overflow: 'hidden' }}>
+            <TableContainer style={{ maxHeight: 690 }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead >
                         <TableRow>
@@ -169,7 +169,7 @@ export default function StickyHeadTable(props: Props) {
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
-                sx={{
+                style={{
                     backgroundColor: '#ffe0b2'
                 }}
             />

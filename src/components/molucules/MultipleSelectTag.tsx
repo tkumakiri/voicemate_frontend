@@ -49,7 +49,7 @@ export default function MultipleSelectTag(props: PROPS) {
 
     return (
         <div>
-            <FormControl sx={{ m: 1, width: 300 }}>
+            <FormControl style={{ margin: 1, width: 300 }}>
                 <InputLabel id="demo-multiple-chip-label">Tag</InputLabel>
                 <Select
                     labelId="demo-multiple-chip-label"
@@ -62,7 +62,7 @@ export default function MultipleSelectTag(props: PROPS) {
                     }
                     renderValue={(selected) => (
                         <Box
-                            sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}
+                            style={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}
                         >
                             {selected.map((value) => (
                                 <Chip key={value} label={value} />

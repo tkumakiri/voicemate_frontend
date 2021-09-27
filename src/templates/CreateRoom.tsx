@@ -73,19 +73,14 @@ export default function CreateRoom() {
         <div className="w-full h-screen">
             <div className=" flex items-center justify-center">
                 <Box
-                    sx={{
-                        width: {
-                            xs: 100, // theme.breakpoints.up('xs')
-                            sm: 200, // theme.breakpoints.up('sm')
-                            md: 300, // theme.breakpoints.up('md')
-                            lg: 400, // theme.breakpoints.up('lg')
-                            xl: 500, // theme.breakpoints.up('xl')
-                        },
+                    style={{
                         marginTop: 8,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
+
                     }}
+
                     component="form"
                     onSubmit={handleSubmit}
                     noValidate
@@ -101,7 +96,7 @@ export default function CreateRoom() {
                         autoFocus
                     />
                     <Box
-                        sx={{
+                        style={{
                             marginTop: 5,
                             display: 'flex',
                             flexDirection: 'column',
@@ -124,7 +119,7 @@ export default function CreateRoom() {
                     </Box>
                     <p className="mt-2 text-xl">gender</p>
                     <Box
-                        sx={{
+                        style={{
                             display: 'flex',
                         }}
                     >
@@ -167,7 +162,7 @@ export default function CreateRoom() {
                     </Box>
                     <p className="mt-2 text-xl">age</p>
                     <Box
-                        sx={{
+                        style={{
                             display: 'flex',
                             marginBottom: 2,
                         }}
@@ -220,7 +215,7 @@ export default function CreateRoom() {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
+                        style={{ marginTop: 3, marginBottom: 2 }}
                     >
                         つくる
                     </Button>

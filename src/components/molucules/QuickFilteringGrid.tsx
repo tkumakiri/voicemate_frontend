@@ -74,7 +74,7 @@ function QuickSearchToolbar(props: QuickSearchToolbarProps) {
         </GridToolbarContainer>
       </div>
       <TextField
-        sx={{
+        style={{
           minWidth: 300,
         }}
         variant="standard"

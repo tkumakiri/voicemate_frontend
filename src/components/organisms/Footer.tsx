@@ -19,5 +19,5 @@ function Copyright(props: any) {
 }
 
 export default function Footer() {
-    return <Copyright sx={{ mt: 5, mb: 4 }} />;
+    return <Copyright style={{ marginTop: 5, marginBottom: 4 }} />;
 }

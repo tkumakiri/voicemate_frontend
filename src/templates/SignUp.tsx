@@ -31,14 +31,14 @@ export default function SignUp() {
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
-                    sx={{
+                    style={{
                         marginTop: 8,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <Avatar style={{ margin: 1, backgroundColor: 'secondary.main' }}>
                         LockOutLinedIcon
                     </Avatar>
                     <Typography component="h1" variant="h5">
@@ -48,7 +48,7 @@ export default function SignUp() {
                         component="form"
                         noValidate
                         onSubmit={handleSubmit}
-                        sx={{ mt: 3 }}
+                        style={{ marginTop: 3 }}
                     >
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
@@ -109,7 +109,7 @@ export default function SignUp() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            style={{ marginTop: 3, marginBottom: 2 }}
                         >
                             Sign Up
                         </Button>

@@ -99,7 +99,9 @@ const SkyWay = (props: Props) => {
             </button>
             <video ref={localVideoRef} playsInline muted style={{ display: 'none' }}></video>
             {castVideo()}
-            <p>自分の通信は繋がっています</p>
+            {isStarted && (
+                <p>自分の通信は繋がっています</p>)
+            }
         </div>
     );
 };

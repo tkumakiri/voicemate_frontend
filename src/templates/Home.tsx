@@ -34,7 +34,6 @@ export default function Home() {
             { name: '6の部屋', now_member: 6, member_limit: 10, gender: 'all', age_lower: 18, age_upper: 60, tags: ['movie', 'drama'], roomId: '6' },
             { name: '7の部屋', now_member: 9, member_limit: 10, gender: 'all', age_lower: 18, age_upper: 60, tags: ['movie', 'drama'], roomId: '7' },
             { name: '8の部屋', now_member: 9, member_limit: 10, gender: 'all', age_lower: 18, age_upper: 60, tags: ['movie', 'talk'], roomId: '8' },
-
         ];
 
     return (
