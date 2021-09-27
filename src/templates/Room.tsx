@@ -20,9 +20,9 @@ export default function Room() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="sm" sx={{ my: 5 }}>
+            <Container component="main" maxWidth="sm" style={{ marginTop: '5px', marginBottom: '5px' }}>
 
-                <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
+                <Typography component="h1" variant="h5" style={{ textAlign: 'center' }}>
                     {'部屋' + roomId.roomId}
                 </Typography>
 
@@ -44,23 +44,22 @@ export default function Room() {
                     />
 
                 </Stack>
-                <Paper className="grid grid-cols-3 gap-4"
-                    sx={{
-                        mx: 2,
-                        my: 5,
-                        p: 3,
+                <Paper className="grid grid-cols-3 gap-4 "
+                    style={{
+                        margin: '2px 5px',
+                        padding: '3px',
                     }}>
                     <Box>
                         <Box
                             className="flex justify-center">
                             <Box
-                                sx={{ ...commonStyles, borderRadius: '50%' }} >
+                                style={{ ...commonStyles, borderRadius: '50%' }} >
                                 <img className="rounded-full" src="https://avatars.githubusercontent.com/u/583231?v=4" />
                             </Box>
                         </Box>
 
                         <Typography
-                            sx={{
+                            style={{
                                 textAlign: 'center',
                             }}>
                             名前太郎
@@ -71,13 +70,13 @@ export default function Room() {
                         <Box
                             className="flex justify-center">
                             <Box
-                                sx={{ ...commonStyles, borderRadius: '50%' }} >
+                                style={{ ...commonStyles, borderRadius: '50%' }} >
                                 <img className="rounded-full" src="https://avatars.githubusercontent.com/u/583231?v=4" />
                             </Box>
                         </Box>
 
                         <Typography
-                            sx={{
+                            style={{
                                 textAlign: 'center',
                             }}>
                             名前太郎
@@ -88,13 +87,13 @@ export default function Room() {
                         <Box
                             className="flex justify-center">
                             <Box
-                                sx={{ ...commonStyles, borderRadius: '50%' }} >
+                                style={{ ...commonStyles, borderRadius: '50%' }} >
                                 <img className="rounded-full" src="https://avatars.githubusercontent.com/u/583231?v=4" />
                             </Box>
                         </Box>
 
                         <Typography
-                            sx={{
+                            style={{
                                 textAlign: 'center',
                             }}>
                             名前太郎
@@ -105,13 +104,13 @@ export default function Room() {
                         <Box
                             className="flex justify-center">
                             <Box
-                                sx={{ ...commonStyles, borderRadius: '50%' }} >
+                                style={{ ...commonStyles, borderRadius: '50%' }} >
                                 <img className="rounded-full" src="https://avatars.githubusercontent.com/u/583231?v=4" />
                             </Box>
                         </Box>
 
                         <Typography
-                            sx={{
+                            style={{
                                 textAlign: 'center',
                             }}>
                             名前太郎
