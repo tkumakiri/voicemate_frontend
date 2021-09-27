@@ -1,6 +1,8 @@
 import Peer, { SfuRoom } from "skyway-js";
 import React from "react";
-import { useParams } from "react-router";
+import { Button } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
+import { useLocation } from "react-router";
 
 type VideoStream = {
     stream: MediaStream;
@@ -10,9 +12,17 @@ type Props = {
     roomId: string
 }
 
-const SkyWay = (props: Props) => {
+const useStyles = makeStyles({
+    button: {
+        width: 200,
+        height: 100,
+    },
+});
 
+const SkyWay = (props: Props) => {
+    const classes = useStyles();
     const roomId: string = props.roomId
+    const pathname = useLocation().pathname
     const peer = React.useRef(new Peer({ key: 'd2d9d44a-dc3e-40c1-9db9-e5de23d63d81' as string }));
     const [remoteVideo, setRemoteVideo] = React.useState<VideoStream[]>([]);
     const [localStream, setLocalStream] = React.useState<MediaStream>();
@@ -34,6 +44,9 @@ const SkyWay = (props: Props) => {
             });
         return () => onEnd()
     }, []);
+
+
+
     const onStart = () => {
         console.log(room)
         if (peer.current) {
@@ -91,17 +104,21 @@ const SkyWay = (props: Props) => {
     };
     return (
         <div>
-            <button onClick={() => onStart()} disabled={isStarted}>
-                start
-            </button>
-            <button onClick={() => onEnd()} disabled={!isStarted}>
-                end
-            </button>
+            <div className='flex items-center justify-center' >
+                <Button className={classes.button} onClick={() => onStart()} disabled={isStarted}>
+                    <p className='text-3xl' >start</p>
+                </Button>
+                <Button className={classes.button} onClick={() => onEnd()} disabled={!isStarted}>
+                    <p className='text-3xl' >end</p>
+                </Button>
+            </div>
             <video ref={localVideoRef} playsInline muted style={{ display: 'none' }}></video>
             {castVideo()}
+
             {isStarted && (
-                <p>自分の通信は繋がっています</p>)
+                <p className='text-center' >自分の通信は繋がっています</p>)
             }
+
         </div>
     );
 };
@@ -116,5 +133,5 @@ const RemoteVideo = (props: { video: VideoStream }) => {
             videoRef.current.play().catch((e) => console.log(e));
         }
     }, [props.video]);
-    return <div><video ref={videoRef} playsInline style={{ display: 'none' }}></video><p>相手は繋がっています</p></div>;
+    return <div><video ref={videoRef} playsInline style={{ display: 'none' }}></video><p className='text-center'>相手は繋がっています</p></div>;
 };

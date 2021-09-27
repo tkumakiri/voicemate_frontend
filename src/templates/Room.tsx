@@ -6,7 +6,7 @@ import Footer from '../components/organisms/Footer';
 import Stack from '@mui/material/Stack';
 import { Autocomplete, Box, Paper } from '@material-ui/core';
 import TextField from '@mui/material/TextField';
-import { textAlign } from '@mui/system';
+import { borderColor, textAlign } from '@mui/system';
 import { useParams, useRouteMatch } from 'react-router';
 import { SkyWay } from '.';
 
@@ -16,125 +16,96 @@ export default function Room() {
 
     const roomId: { roomId: string } = useParams()
     const match = useRouteMatch()
+    type Users = {
+        uid: string
+        name: string
+        image: {
+            id: string
+            path: string
+        }
+    }
+    const users: Array<Users> = [
+        {
+            uid: 'aaa',
+            name: '名前aaa',
+            image: {
+                id: 'aaa',
+                path: 'https://avatars.githubusercontent.com/u/583231?v=4'
+            }
+        },
+        {
+            uid: 'bbb',
+            name: '名前bbb',
+            image: {
+                id: 'bbb',
+                path: 'https://avatars.githubusercontent.com/u/583231?v=4'
+            }
+        },
+        {
+            uid: 'ccc',
+            name: '名前ccc',
+            image: {
+                id: 'bbb',
+                path: 'https://avatars.githubusercontent.com/u/583231?v=4'
+            }
+        },
+        {
+            uid: 'ddd',
+            name: '名前ddd',
+            image: {
+                id: 'bbb',
+                path: 'https://avatars.githubusercontent.com/u/583231?v=4'
+            }
+        },
+        {
+            uid: 'eee',
+            name: '名前eee',
+            image: {
+                id: 'bbb',
+                path: 'https://avatars.githubusercontent.com/u/583231?v=4'
+            }
+        },
+    ]
 
 
     return (
-        <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="sm" style={{ marginTop: '5px', marginBottom: '5px' }}>
+        <div className='w-full h-screen bg-yellow-50' >
+            <div className='pt-8' >
+                <div className="w-full h-screen">
+                    <div className="w-full h-1/6 flex items-center justify-center">
 
-                <Typography component="h1" variant="h5" style={{ textAlign: 'center' }}>
-                    {'部屋' + roomId.roomId}
-                </Typography>
+                    </div>
+                    <div className="h-2/6 flex flex-wrap items-center justify-center ">
+                        {users.length > 0 &&
+                            users.map((user: any, index: number) => (
+                                <div key={user.uid}>
+                                    <Box style={{ margin: 32 }}>
+                                        <Box
+                                            style={{
+                                                width: '5rem',
+                                                height: '5rem', borderRadius: '50%'
+                                            }} >
+                                            <img className="rounded-full" src={user.image.path} />
+                                        </Box>
+                                        <Typography
+                                            style={{
+                                                textAlign: 'center',
+                                            }}>
+                                            {user.name}
+                                        </Typography>
+                                    </Box>
+                                </div>
+                            ))}
+                    </div>
+                    <div className="h-2/6"> <SkyWay roomId={roomId.roomId} /></div>
+                </div>
 
-                <Stack spacing={3} >
-                    <Autocomplete
-                        multiple
-                        id="tags-standard"
-                        options={tags}
-                        getOptionLabel={(option) => option.title}
-                        defaultValue={[tags[13]]}
-                        renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                variant="standard"
-                                label="この部屋のタグ"
-                                placeholder="タグを追加"
-                            />
-                        )}
-                    />
-
-                </Stack>
-                <Paper className="grid grid-cols-3 gap-4 "
-                    style={{
-                        margin: '2px 5px',
-                        padding: '3px',
-                    }}>
-                    <Box>
-                        <Box
-                            className="flex justify-center">
-                            <Box
-                                style={{ ...commonStyles, borderRadius: '50%' }} >
-                                <img className="rounded-full" src="https://avatars.githubusercontent.com/u/583231?v=4" />
-                            </Box>
-                        </Box>
-
-                        <Typography
-                            style={{
-                                textAlign: 'center',
-                            }}>
-                            名前太郎
-                        </Typography>
-                    </Box>
-
-                    <Box>
-                        <Box
-                            className="flex justify-center">
-                            <Box
-                                style={{ ...commonStyles, borderRadius: '50%' }} >
-                                <img className="rounded-full" src="https://avatars.githubusercontent.com/u/583231?v=4" />
-                            </Box>
-                        </Box>
-
-                        <Typography
-                            style={{
-                                textAlign: 'center',
-                            }}>
-                            名前太郎
-                        </Typography>
-                    </Box>
-
-                    <Box>
-                        <Box
-                            className="flex justify-center">
-                            <Box
-                                style={{ ...commonStyles, borderRadius: '50%' }} >
-                                <img className="rounded-full" src="https://avatars.githubusercontent.com/u/583231?v=4" />
-                            </Box>
-                        </Box>
-
-                        <Typography
-                            style={{
-                                textAlign: 'center',
-                            }}>
-                            名前太郎
-                        </Typography>
-                    </Box>
-
-                    <Box>
-                        <Box
-                            className="flex justify-center">
-                            <Box
-                                style={{ ...commonStyles, borderRadius: '50%' }} >
-                                <img className="rounded-full" src="https://avatars.githubusercontent.com/u/583231?v=4" />
-                            </Box>
-                        </Box>
-
-                        <Typography
-                            style={{
-                                textAlign: 'center',
-                            }}>
-                            名前太郎
-                        </Typography>
-                    </Box>
-
-                </Paper>
-
-            </Container>
-            <SkyWay roomId={roomId.roomId} />
-            <Footer />
-        </ThemeProvider >
+            </div>
+        </div>
     );
 }
 
 
-const commonStyles = {
-    bgcolor: 'background.paper',
-    borderColor: 'text.primary',
-    m: 1,
-    border: 1,
-    width: '5rem',
-    height: '5rem',
-};
 const tags = [
     { title: 'The Shawshank Redemption', year: 1994 },
     { title: 'The Godfather', year: 1972 },

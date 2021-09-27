@@ -38,11 +38,16 @@ export default function Home() {
 
     return (
         <div className='w-full h-screen bg-yellow-50' >
+            <div className="flex justify-end ml-16" >
+                <Button style={{ width: 200, height: 40 }} href="/profile">
+                    <p className="text-xl">mypage</p>
+                </Button>
+            </div>
+            <div className="flex items-center justify-center">
+                <p className='text-5xl' >voicemate</p>
+            </div>
 
-            <div className="pt-8 flex items-center justify-center text-5xl">voicemate
-                <Button className={classes.button} href="/profile">
-                    <p className="text-3xl">mypage</p>
-                </Button></div>
+
             <div className="flex items-center justify-center">
                 <Button className={classes.button} href="/searchroom">
                     <p className="text-3xl">部屋をさがす</p>

@@ -70,11 +70,12 @@ export default function CreateRoom() {
         });
     };
     return (
-        <div className="w-full h-screen">
-            <div className=" flex items-center justify-center">
+        <div className="w-full h-screen bg-yellow-50 ">
+            <div className="pt-12 text-center  text-3xl">部屋をつくる</div>
+            <div className=''>
                 <Box
                     style={{
-                        marginTop: 8,
+                        marginTop: 32,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -85,11 +86,11 @@ export default function CreateRoom() {
                     onSubmit={handleSubmit}
                     noValidate
                 >
-                    <div className="text-center  text-3xl">部屋をつくる</div>
+
                     <TextField
+                        style={{ width: 400 }}
                         margin="normal"
                         required
-                        fullWidth
                         id="room_name"
                         label="Room Name"
                         name="room_name"
@@ -202,9 +203,9 @@ export default function CreateRoom() {
                         setTags={setTags}
                     />
                     <TextField
+                        style={{ width: 400 }}
                         margin="normal"
                         required={false}
-                        fullWidth
                         multiline
                         rows={7}
                         id="introduction"
@@ -213,9 +214,12 @@ export default function CreateRoom() {
                     />
                     <Button
                         type="submit"
-                        fullWidth
                         variant="contained"
-                        style={{ marginTop: 3, marginBottom: 2 }}
+                        style={{
+                            width: 400,
+                            height: 40,
+                            marginTop: 32,
+                        }}
                     >
                         つくる
                     </Button>
