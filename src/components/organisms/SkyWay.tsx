@@ -21,7 +21,7 @@ const SkyWay = (props: Props) => {
     const [isStarted, setIsStarted] = React.useState(false);
     React.useEffect(() => {
         navigator.mediaDevices
-            .getUserMedia({ video: true, audio: true })
+            .getUserMedia({ video: false, audio: true })
             .then((stream) => {
                 setLocalStream(stream);
                 if (localVideoRef.current) {
@@ -97,8 +97,9 @@ const SkyWay = (props: Props) => {
             <button onClick={() => onEnd()} disabled={!isStarted}>
                 end
             </button>
-            <video ref={localVideoRef} playsInline muted ></video>
+            <video ref={localVideoRef} playsInline muted style={{ display: 'none' }}></video>
             {castVideo()}
+            <p>自分の通信は繋がっています</p>
         </div>
     );
 };
@@ -113,5 +114,5 @@ const RemoteVideo = (props: { video: VideoStream }) => {
             videoRef.current.play().catch((e) => console.log(e));
         }
     }, [props.video]);
-    return <video ref={videoRef} playsInline></video>;
+    return <div><video ref={videoRef} playsInline style={{ display: 'none' }}></video><p>相手は繋がっています</p></div>;
 };
