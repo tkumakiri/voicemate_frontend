@@ -90,7 +90,7 @@ const SkyWay = (roomId: string) => {
             <button onClick={() => onEnd()} disabled={!isStarted}>
                 end
             </button>
-            <video ref={localVideoRef} playsInline></video>
+            <video ref={localVideoRef} playsInline muted ></video>
             {castVideo()}
         </div>
     );
