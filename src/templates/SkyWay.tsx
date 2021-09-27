@@ -15,7 +15,7 @@ const SkyWay = (roomId: string) => {
     const [isStarted, setIsStarted] = React.useState(false);
     React.useEffect(() => {
         navigator.mediaDevices
-            .getUserMedia({ video: true })
+            .getUserMedia({ video: true, audio: true })
             .then((stream) => {
                 setLocalStream(stream);
                 if (localVideoRef.current) {
