@@ -12,19 +12,35 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from '../components/organisms/Footer';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUser, getUser } from '../redux/slice/userSlice'
+import { push } from 'connected-react-router';
+import { useHistory } from 'react-router';
 
 const theme = createTheme();
 
 export default function SignIn() {
+
+    const history = useHistory()
+    const dispatch = useDispatch()
+    const user = useSelector(getUser).user
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         // eslint-disable-next-line no-console
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const email = data.get('email') as string;
+        const password = data.get('password') as string;
+
+        dispatch(fetchUser({ email: email, password: password }))
     };
+
+    React.useEffect(() => {
+        console.log(user)
+        if (user.id) {
+            history.push('/home')
+        }
+    }, [user])
 
     return (
         <div className='w-full h-screen bg-yellow-50' >

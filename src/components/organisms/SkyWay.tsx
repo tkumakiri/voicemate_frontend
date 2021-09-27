@@ -1,8 +1,8 @@
 import Peer, { SfuRoom } from "skyway-js";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@mui/styles";
-import { useLocation } from "react-router";
+import { useHistory } from "react-router";
 
 type VideoStream = {
     stream: MediaStream;
@@ -10,7 +10,14 @@ type VideoStream = {
 };
 type Props = {
     roomId: string
+    uid: string
+    start: boolean
 }
+
+type UidWithPeerId = Array<{
+    uid: string
+    peerId: string
+}>
 
 const useStyles = makeStyles({
     button: {
@@ -21,15 +28,20 @@ const useStyles = makeStyles({
 
 const SkyWay = (props: Props) => {
     const classes = useStyles();
+    const history = useHistory()
     const roomId: string = props.roomId
-    const pathname = useLocation().pathname
-    const peer = React.useRef(new Peer({ key: 'd2d9d44a-dc3e-40c1-9db9-e5de23d63d81' as string }));
+    const uid = props.uid
+    const start = props.start
+    const peer = useRef(new Peer({ key: 'd2d9d44a-dc3e-40c1-9db9-e5de23d63d81' as string }))
     const [remoteVideo, setRemoteVideo] = React.useState<VideoStream[]>([]);
     const [localStream, setLocalStream] = React.useState<MediaStream>();
     const [room, setRoom] = React.useState<SfuRoom>();
     const localVideoRef = React.useRef<HTMLVideoElement>(null);
     const [isStarted, setIsStarted] = React.useState(false);
-    React.useEffect(() => {
+    const uidWithPeerId: UidWithPeerId = []
+
+
+    useEffect(() => {
         navigator.mediaDevices
             .getUserMedia({ video: false, audio: true })
             .then((stream) => {
@@ -42,13 +54,24 @@ const SkyWay = (props: Props) => {
             .catch((e) => {
                 console.log(e);
             });
-        return () => onEnd()
+
+        // // ブラウザバック禁止
+        // window.addEventListener('popstate', (e) => {
+        //     history.go(1)
+        // });
+
     }, []);
+
+
+    useEffect(() => {
+        if (start) {
+            onStart()
+        }
+    }, [start])
 
 
 
     const onStart = () => {
-        console.log(room)
         if (peer.current) {
             if (!peer.current.open) {
                 return;
@@ -69,7 +92,7 @@ const SkyWay = (props: Props) => {
                     { stream: stream, peerId: stream.peerId },
                 ]);
             });
-            tmpRoom.on("peerLeave", (peerId) => {
+            tmpRoom.on("peerLeave", (peerId) => { // 参加者が抜けたとき
                 setRemoteVideo((prev) => {
                     return prev.filter((video) => {
                         if (video.peerId === peerId) {
@@ -80,11 +103,21 @@ const SkyWay = (props: Props) => {
                 });
                 console.log(`=== ${peerId} left ===\n`);
             });
+            console.log(tmpRoom.eventNames())
+
+            tmpRoom.on('close', () => { // 自分が抜けたとき
+                history.push('/home')
+            });
             setRoom(tmpRoom);
         }
         setIsStarted((prev) => !prev);
+        console.log(peer.current.id)
     };
+    console.log(room)
+
     const onEnd = () => {
+
+        console.log(room?.members)
         if (room) {
             room.close();
             console.log('===  room end ===')
@@ -97,6 +130,7 @@ const SkyWay = (props: Props) => {
         }
         setIsStarted((prev) => !prev);
     };
+
     const castVideo = () => {
         return remoteVideo.map((video) => {
             return <RemoteVideo video={video} key={video.peerId} />;
@@ -105,19 +139,17 @@ const SkyWay = (props: Props) => {
     return (
         <div>
             <div className='flex items-center justify-center' >
-                <Button className={classes.button} onClick={() => onStart()} disabled={isStarted}>
-                    <p className='text-3xl' >start</p>
-                </Button>
                 <Button className={classes.button} onClick={() => onEnd()} disabled={!isStarted}>
-                    <p className='text-3xl' >end</p>
+                    <p className='text-3xl' >退室する</p>
                 </Button>
             </div>
-            <video ref={localVideoRef} playsInline muted style={{ display: 'none' }}></video>
             {castVideo()}
-
             {isStarted && (
-                <p className='text-center' >自分の通信は繋がっています</p>)
-            }
+                <div>
+                    <video ref={localVideoRef} playsInline muted style={{ display: 'none' }}></video>
+                    <p className='text-center' >自分の通信は繋がっています</p>
+                </div>
+            )}
 
         </div>
     );
@@ -132,6 +164,7 @@ const RemoteVideo = (props: { video: VideoStream }) => {
             videoRef.current.srcObject = props.video.stream;
             videoRef.current.play().catch((e) => console.log(e));
         }
+
     }, [props.video]);
     return <div><video ref={videoRef} playsInline style={{ display: 'none' }}></video><p className='text-center'>相手は繋がっています</p></div>;
 };

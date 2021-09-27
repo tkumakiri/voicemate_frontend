@@ -1,6 +1,9 @@
 import { Button } from "@material-ui/core";
 import { makeStyles } from '@mui/styles';
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { StickyHeadTable } from "../components/organisms";
+import { getUser } from "../redux/slice/userSlice";
 
 const useStyles = makeStyles({
     button: {
@@ -23,6 +26,7 @@ export type RowData = {
 export default function Home() {
 
     const classes = useStyles()
+    const user = useSelector(getUser).user
 
     const rowsData: Array<RowData>
         = [
@@ -36,11 +40,16 @@ export default function Home() {
             { name: '8の部屋', now_member: 9, member_limit: 10, gender: 'all', age_lower: 18, age_upper: 60, tags: ['movie', 'talk'], roomId: '8' },
         ];
 
+
+    useEffect(() => {
+        console.log(user)
+    }, [])
+
     return (
         <div className='w-full h-screen bg-yellow-50' >
             <div className="flex justify-end ml-16" >
                 <Button style={{ width: 200, height: 40 }} href="/profile">
-                    <p className="text-xl">mypage</p>
+                    <p className="text-xl">{user.name}</p>
                 </Button>
             </div>
             <div className="flex items-center justify-center">

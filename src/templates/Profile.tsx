@@ -1,4 +1,9 @@
+import { useSelector } from "react-redux";
+import { getUser } from "../redux/slice/userSlice";
+
 export default function Profile() {
+
+    const user = useSelector(getUser).user
 
 
     const favoriteTags: string[] = [
@@ -9,7 +14,7 @@ export default function Profile() {
 
     return (
         <div className="w-full h-screen bg-yellow-50">
-            <h2 className="pt-8 text-5xl text-center">username</h2>
+            <h2 className="pt-8 text-5xl text-center">{user.name}</h2>
             <div className='flex items-center justify-center ' >
                 <img className="mt-8 w-72 h-72 rounded-full" src="https://avatars.githubusercontent.com/u/583231?v=4" />
             </div>
