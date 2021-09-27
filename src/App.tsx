@@ -20,8 +20,7 @@ function App() {
         <Route exact path={'/createroom'} component={CreateRoom} />
         <Route exact path={'/profile'} component={Profile} />
         <Route exact path={'/searchroom'} component={SearchRoom} />
-        <Route exact path={'/skyway1'} component={() => SkyWay('1')} />
-        <Route exact path={'/skyway2'} component={() => SkyWay('2')} />
+        <Route exact path={'/'} component={() => SkyWay('1')} />
       </Switch>
     </BrowserRouter>
   );
