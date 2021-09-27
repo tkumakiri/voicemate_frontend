@@ -7,26 +7,23 @@ import Stack from '@mui/material/Stack';
 import { Autocomplete, Box, Paper } from '@material-ui/core';
 import TextField from '@mui/material/TextField';
 import { textAlign } from '@mui/system';
+import { useParams, useRouteMatch } from 'react-router';
+import { SkyWay } from '.';
 
 const theme = createTheme();
 
 export default function Room() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-    };
+
+    const roomId: { roomId: string } = useParams()
+    const match = useRouteMatch()
+
 
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="sm" sx={{ my: 5 }}>
 
                 <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
-                    部屋名
+                    {'部屋' + roomId.roomId}
                 </Typography>
 
                 <Stack spacing={3} >
@@ -124,6 +121,7 @@ export default function Room() {
                 </Paper>
 
             </Container>
+            <SkyWay roomId={roomId.roomId} />
             <Footer />
         </ThemeProvider >
     );

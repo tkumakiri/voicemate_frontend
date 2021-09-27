@@ -16,10 +16,10 @@ function App() {
         <Route exact path={'/home'} component={Home} />
         <Route exact path={'/testskyway'} component={TestSkyway} />
         <Route exact path={'/selectroom'} component={SelectRoom} />
-        <Route exact path={'/room'} component={Room} />
         <Route exact path={'/createroom'} component={CreateRoom} />
         <Route exact path={'/profile'} component={Profile} />
         <Route exact path={'/searchroom'} component={SearchRoom} />
+        <Route exact path={'/room/:roomId'} component={Room} />
       </Switch>
     </BrowserRouter>
   );
