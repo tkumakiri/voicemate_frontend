@@ -9,14 +9,12 @@ import { tagType } from "./Profile";
 
 export default function Profile() {
 
+    const user = useSelector(getUser).user
     const dispatch = useDispatch()
     const history = useHistory()
     const [tag, setTags] = useState<tagType[]>([{ id: -1, name: '' }])
     const [tagname, setTagname] = useState('')
-    const [username, setUsername] = useState('')
-
-
-    const user = useSelector(getUser).user
+    const [username, setUsername] = useState(user.name)
 
     const preUserTags: number[] = user.tags.map((tag: tagType) => {
         return tag.id
@@ -50,7 +48,7 @@ export default function Profile() {
     };
 
     const putTags = () => {
-
+        console.log(preUserTags)
         const body: EditUserTags = {
             id: user.id,
             name: username,
