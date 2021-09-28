@@ -1,5 +1,8 @@
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@mui/styles';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchRoom } from '../redux/slice/roomsSlice';
 
 const useStyles = makeStyles({
     button: {
@@ -10,6 +13,8 @@ const useStyles = makeStyles({
 
 export default function Top() {
     const classes = useStyles();
+    const dispatch = useDispatch()
+
 
     return (
         <div className="w-full h-screen bg-yellow-50">

@@ -1,22 +1,28 @@
 
 import { RowData } from "./Home";
 import { QuickFilteringGrid } from "../components/molucules";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRoom, getRooms, roomState } from "../redux/slice/roomsSlice";
 
 export default function SearchRoom() {
+    const dispatch = useDispatch()
+    const rooms: Array<roomState> = useSelector(getRooms).rooms
+    const [rowsData, setRowsData] = useState<Array<RowData>>([])
+
+    useEffect(() => {
+        console.log(rooms)
+
+        if (rooms.length == 0) { // roomsに値が入っていないとき
+            dispatch(fetchRoom())
+        } else {
+            rooms.map((room: roomState) => (
+                setRowsData([{ ...room, now_member: 1 }])
+            ))
+        }
+    }, [rooms])
 
 
-    const rowsData: Array<RowData>
-        = [
-            { name: '月9ドラマをみんなでみよう', now_member: 9, member_limit: 10, gender: 'all', age_lower: 18, age_upper: 60, tags: ['movie', 'drama'], roomId: '1' },
-            { name: '野球観戦', now_member: 9, member_limit: 10, gender: 'all', age_lower: 18, age_upper: 60, tags: ['movie', 'drama'], roomId: '2' },
-            { name: '映画をみよう', now_member: 8, member_limit: 10, gender: 'all', age_lower: 18, age_upper: 60, tags: ['movie', 'drama'], roomId: '3' },
-            { name: '月9ドラマをみんなでみよう', now_member: 9, member_limit: 10, gender: 'male', age_lower: 17, age_upper: 60, tags: ['movie', 'drama', 'baseball'], roomId: '4' },
-            { name: '月9ドラマをみんなでみよう', now_member: 9, member_limit: 10, gender: 'all', age_lower: 18, age_upper: 59, tags: ['movie', 'basketball'], roomId: '5' },
-            { name: '月9ドラマをみんなでみよう', now_member: 6, member_limit: 10, gender: 'female', age_lower: 18, age_upper: 60, tags: ['movie', 'drama'], roomId: '6' },
-            { name: '月9ドラマをみんなでみよう', now_member: 9, member_limit: 10, gender: 'all', age_lower: 22, age_upper: 40, tags: ['movie', 'drama'], roomId: '7' },
-            { name: '月9ドラマをみんなでみよう', now_member: 9, member_limit: 10, gender: 'male', age_lower: 23, age_upper: 55, tags: ['movie', 'talk'], roomId: '8' },
-
-        ];
 
     return (
         <div className='bg-yellow-50' >

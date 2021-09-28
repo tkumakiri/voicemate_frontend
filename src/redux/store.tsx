@@ -7,9 +7,11 @@ import { createStore } from "redux";
 import { applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import userSlice from "./slice/userSlice";
+import roomsSlice from "./slice/roomsSlice";
 
 const rootReducer = combineReducers({
     user: userSlice.reducer,
+    rooms: roomsSlice.reducer,
 });
 
 const persistConfig = {
