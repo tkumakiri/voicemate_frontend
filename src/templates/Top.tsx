@@ -3,6 +3,7 @@ import { makeStyles } from '@mui/styles';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchRoom } from '../redux/slice/roomsSlice';
+import { initialState, updateUserState } from '../redux/slice/userSlice';
 
 const useStyles = makeStyles({
     button: {
@@ -14,6 +15,10 @@ const useStyles = makeStyles({
 export default function Top() {
     const classes = useStyles();
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(updateUserState(initialState))
+    }, [])
 
 
     return (

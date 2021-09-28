@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { StickyHeadTable } from "../components/organisms";
 import { fetchRoom, getRooms, roomState } from "../redux/slice/roomsSlice";
-import { getUser, initialState, updateUserState } from "../redux/slice/userSlice";
+import { fetchUserById, getUser, initialState, updateUserState } from "../redux/slice/userSlice";
 
 const useStyles = makeStyles({
     button: {
@@ -38,7 +38,9 @@ export default function Home() {
     useEffect(() => {
 
         dispatch(fetchRoom())
-
+        if (user.id) {
+            dispatch(fetchUserById(user.id))
+        }
     }, [])
 
     return (
