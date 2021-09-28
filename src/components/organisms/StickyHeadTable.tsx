@@ -112,6 +112,7 @@ export default function StickyHeadTable(props: Props) {
         setPage(0);
     };
 
+
     return (
         <Paper style={{ width: '100%', overflow: 'hidden' }}>
             <TableContainer style={{ maxHeight: 690 }}>

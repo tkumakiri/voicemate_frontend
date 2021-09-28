@@ -29,8 +29,8 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
 }
 
 type PROPS = {
-    alltags: string[]; // すべてのタグ
-    tags: string[]; // 選択したタグ
+    alltags: Array<{ id: number, name: string }>; // すべてのタグ
+    tags: string[] // 選択したタグ
     setTags: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
@@ -73,11 +73,11 @@ export default function MultipleSelectTag(props: PROPS) {
                 >
                     {props.alltags.map((tag) => (
                         <MenuItem
-                            key={tag}
-                            value={tag}
-                            style={getStyles(tag, props.tags, theme)}
+                            key={tag.id}
+                            value={tag.name}
+                            style={getStyles(tag.name, props.tags, theme)}
                         >
-                            {tag}
+                            {tag.name}
                         </MenuItem>
                     ))}
                 </Select>

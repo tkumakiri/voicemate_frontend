@@ -13,12 +13,12 @@ export default function SearchRoom() {
     useEffect(() => {
         console.log(rooms)
 
-        if (rooms.length == 0) { // roomsに値が入っていないとき
+        if (!rooms[0].id) { // roomsに値が入っていないとき
             dispatch(fetchRoom())
         } else {
-            rooms.map((room: roomState) => (
-                setRowsData([{ ...room, now_member: 1 }])
-            ))
+            setRowsData(rooms.map((room: roomState) => {
+                return { ...room, now_member: 1 }
+            }))
         }
     }, [rooms])
 

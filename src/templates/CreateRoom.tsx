@@ -2,8 +2,12 @@ import { Button } from '@material-ui/core';
 import { Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Box } from '@mui/system';
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
 import { MultipleSelectTag } from '../components/molucules';
+import { addRoom } from '../redux/slice/roomsSlice';
 
 const useStyles = makeStyles({
     numberField: {
@@ -13,22 +17,20 @@ const useStyles = makeStyles({
 
 export default function CreateRoom() {
     const classes = useStyles();
+    const dispatch = useDispatch()
+    const history = useHistory()
     const [checkedAll, setCheckedAll] = useState(true);
     const [checkedMale, setCheckedMale] = useState(false);
     const [checkedFemale, setCheckedFemale] = useState(false);
     const [gender, setGender] = useState('all');
-
     const [tags, setTags] = useState<string[]>([]);
 
-    const alltags: string[] = [
-        'baseball',
-        'music live',
-        'soccer',
-        'basketball',
-        'tolk',
-        'werewolf',
-        'cinema',
-    ];
+    const [allTags, setAllTags] = useState<Array<{ id: number, name: string }>>([])
+
+    useEffect(() => {
+        axios.get('http://localhost:8000/tags')
+            .then((res) => setAllTags(res.data))
+    }, [])
 
     const handleChange = (gender: string) => {
         switch (gender) {
@@ -55,19 +57,60 @@ export default function CreateRoom() {
         }
     };
 
+
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         // eslint-disable-next-line no-console
-        console.log({
-            room_name: data.get('room_name'),
-            menber_limit: data.get('menber_limit'),
-            gender: gender,
-            age_lower: data.get('age_lower'),
-            age_upper: data.get('age_upper'),
-            tags: tags,
-            introduction: data.get('introduction'),
-        });
+
+        if (tags.length > 0) {
+            const selectedTagsId = tags.map((tag) =>
+                allTags.map((alltag) => {
+                    if (alltag.name == tag) {
+                        return alltag.id
+                    } else {
+                        return -1
+                    }
+                })
+            )
+
+            const tagIds = selectedTagsId[0].filter((tag) => tag !== -1)
+
+
+            dispatch(addRoom({
+                name: data.get('room_name') as string,
+                ageLower: Number(data.get('age_lower') as string),
+                ageUpper: Number(data.get('age_upper') as string),
+                gender: gender,
+                memberLimit: Number(data.get('message_limit') as string),
+                introduction: data.get('introduction') as string,
+                tags: tagIds
+            }))
+        } else {
+            dispatch(addRoom({
+                name: data.get('room_name') as string,
+                ageLower: Number(data.get('age_lower') as string),
+                ageUpper: Number(data.get('age_upper') as string),
+                gender: gender,
+                memberLimit: Number(data.get('message_limit') as string),
+                introduction: data.get('introduction') as string,
+                tags: null
+            }))
+        }
+
+
+        history.push('/home')
+
+        // console.log({
+        //     room_name: data.get('room_name'),
+        //     menber_limit: data.get('menber_limit'),
+        //     gender: gender,
+        //     age_lower: data.get('age_lower'),
+        //     age_upper: data.get('age_upper'),
+        //     tags: tagsId,
+        //     introduction: data.get('introduction'),
+        // });
     };
     return (
         <div className="w-full h-screen bg-yellow-50 ">
@@ -198,7 +241,7 @@ export default function CreateRoom() {
                         />
                     </Box>
                     <MultipleSelectTag
-                        alltags={alltags}
+                        alltags={allTags}
                         tags={tags}
                         setTags={setTags}
                     />

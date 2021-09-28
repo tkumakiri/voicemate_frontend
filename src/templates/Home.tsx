@@ -39,13 +39,15 @@ export default function Home() {
 
     useEffect(() => {
         console.log(user)
+        console.log(rooms)
 
-        if (!rooms.length) { // roomsに値が入っていないとき
+        if (!rooms[0].id) { // roomsに値が入っていないとき
             dispatch(fetchRoom())
+            console.log('a')
         } else {
-            rooms.map((room: roomState) => (
-                setRowsData([{ ...room, now_member: 1 }])
-            ))
+            setRowsData(rooms.map((room: roomState) => {
+                return { ...room, now_member: 1 }
+            }))
         }
     }, [rooms])
 
