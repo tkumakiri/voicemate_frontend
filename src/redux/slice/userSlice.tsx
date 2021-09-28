@@ -45,38 +45,64 @@ export type adduser = {
     password: string;
 };
 
-export type edituser = {
+export type EditUserTags = {
     id: number;
     name: string;
     email: string;
-    age: number | null;
-    gender: 'all' | 'male' | 'female'
-    roomID: string
-    tags: Array<{
-        id: number,
-        name: string
-    }>
+    password: string;
+    tagIDs: number[];
+    roomID: number;
 };
 
 
-export const editUser = createAsyncThunk(
-    "user/editUser",
-    async (edituser: edituser) => {
+export const editUserTags = createAsyncThunk(
+    "user/editUserTags",
+    async (edituser: EditUserTags) => {
 
-        const userUrl = 'http://localhost:8000/users'
+        const userUrl = 'http://localhost:8000/users/' + edituser.id as string
         const response: any = await axios.put(userUrl, {
-            id: edituser.id,
             name: edituser.name,
             email: edituser.email,
-            age: edituser.age,
-            gender: edituser.gender,
+            passwotd: edituser.password,
+            tagIDs: edituser.tagIDs,
             roomID: edituser.roomID,
-            tags: edituser.tags
         })
             .catch((e) => {
                 console.log(e)
             });
-        return response.data
+
+        console.log(response.data)
+
+    }
+);
+
+export type EditUserName = {
+    id: number;
+    name: string;
+    email: string;
+    password: string;
+    tagIDs: number[];
+    roomID: number;
+};
+
+
+export const editUserName = createAsyncThunk(
+    "user/editUserName",
+    async (editusername: EditUserName) => {
+
+        const userUrl = 'http://localhost:8000/users/' + editusername.id as string
+        const response: any = await axios.put(userUrl, {
+            name: editusername.name,
+            email: editusername.email,
+            passwotd: editusername.password,
+            tagIDs: editusername.tagIDs,
+            roomID: editusername.roomID,
+        })
+            .catch((e) => {
+                console.log(e)
+            });
+
+        console.log(response.data)
 
     }
 );
@@ -99,6 +125,21 @@ export const addUser = createAsyncThunk(
             .catch((e) => {
                 console.log(e)
             });
+
+        return response.data
+
+    }
+);
+export const fetchUserById = createAsyncThunk(
+    "user/fetchUserById",
+    async (id: string) => {
+
+        const userUrl = 'http://localhost:8000/users/' + id
+
+        const response: any = await axios.get(userUrl)
+            .catch((e) => {
+                console.log(e)
+            })
 
         return response.data
 
@@ -143,10 +184,19 @@ const userSlice = createSlice({
         });
         builder.addCase(fetchUser.fulfilled, (state, action: any) => {
             state.user = action.payload; // payloadCreatorでreturnされた値
+            console.log(action.payload)
+            console.log('サインイン完了')
         });
-        builder.addCase(editUser.fulfilled, (state, action: any) => {
+        builder.addCase(fetchUserById.fulfilled, (state, action: any) => {
             state.user = action.payload; // payloadCreatorでreturnされた値
-            console.log('編集完了しました！')
+            console.log(action.payload)
+            console.log('更新完了')
+        });
+        builder.addCase(editUserName.fulfilled, (state, action: any) => {
+            console.log('usernameの編集完了しました!!')
+        });
+        builder.addCase(editUserTags.fulfilled, (state, action: any) => {
+            console.log('usertagの編集完了しました!!')
         });
     },
 });
