@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../redux/slice/userSlice";
 import axios from "axios";
@@ -6,6 +6,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
+import { CollectionsOutlined } from '@mui/icons-material';
 
 
 
@@ -17,6 +18,8 @@ export default function Profile() {
     }
     const dispatch = useDispatch()
     const [tag, setTags] = useState<tagType[]>([{ id: -1, name: '' }])
+    const user = useSelector(getUser).user
+    const user_tags: number[] = []
 
     React.useEffect(() => {
         let tagdata: tagType[]
@@ -29,23 +32,53 @@ export default function Profile() {
                 console.log(err)
             })
     }, [])
+    user.tags.map((tag: tagType) => {
+        user_tags.push(tag.id)
+        console.log(user_tags)
+    })
 
-    const user = useSelector(getUser).user
 
-    const checkedID: number[] = [2, 5]
+    const checkedID: number[] = []
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, id: number) => {
         if (event.target.checked === false) {
             const index = checkedID.indexOf(id)
             checkedID.splice(index, 1)
+            console.log(checkedID, id)
         }
         else if (event.target.checked === true) {
-            checkedID.push(id)
+            if (user_tags.includes(id) != true) {
+                checkedID.push(id)
+                console.log(checkedID, id)
+            }
+            else {
+                console.log(checkedID, "already set")
+            }
         }
     };
-    const postTags = () => {
-        checkedID.forEach(tag => {
-            console.log(tag)
-        })
+
+    const putTags = () => {
+        const body = {
+            name: user.name,
+            email: user.email,
+            password: user.password,
+            tagIDs: checkedID,
+            roomID: user.roomID
+        }
+        console.log(body)
+        axios.put('http://localhost:8000/users/' + user.id, body)
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        axios.get('http://localhost:8000/users/1')
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
     };
 
     return (
@@ -70,7 +103,7 @@ export default function Profile() {
                     <FormControlLabel control={<Checkbox onChange={e => handleChange(e, tag.id)} />} label={tag.name} />
                 ))}
             </FormGroup>
-            <Button onClick={postTags}>追加</Button>
+            <Button onClick={putTags}>追加</Button>
         </div>
     );
 }
