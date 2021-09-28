@@ -108,7 +108,7 @@ type DataWithId = {
   gender: 'all' | 'male' | 'female';
   age: string
   tags: string[];
-  roomId: string
+  roomId: number | null
 }
 
 function createData(
@@ -117,11 +117,13 @@ function createData(
 ): DataWithId {
   const id = index
   const name = rowData.name
-  const member = rowData.member_limit + '人中 ' + rowData.now_member + '人';
+  const member = rowData.memberLimit + '人中 ' + rowData.now_member + '人';
   const gender = rowData.gender
-  const age = rowData.age_lower + '歳 ~ ' + rowData.age_upper + ' 歳'
-  const tags = rowData.tags
-  const roomId = rowData.roomId
+  const age = rowData.ageLower + '歳 ~ ' + rowData.ageUpper + ' 歳'
+  const tags = rowData.tags.map((tag) => (
+    tag.name
+  ))
+  const roomId = rowData.id
   return { id, name, member, gender, age, tags, roomId };
 }
 
@@ -193,6 +195,10 @@ export default function QuickFilteringGrid(props: Props) {
   const [searchText, setSearchText] = React.useState('');
 
   const [rows, setRows] = React.useState<GridRowData[]>(data.rows);
+
+  React.useEffect(() => {
+    setRows(data.rows)
+  }, [props.rowsData])
 
   const requestSearch = (searchValue: string) => {
     setSearchText(searchValue);

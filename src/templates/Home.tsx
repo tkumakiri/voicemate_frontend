@@ -1,8 +1,9 @@
 import { Button } from "@material-ui/core";
 import { makeStyles } from '@mui/styles';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { StickyHeadTable } from "../components/organisms";
+import { fetchRoom, getRooms, roomState } from "../redux/slice/roomsSlice";
 import { getUser, initialState, updateUserState } from "../redux/slice/userSlice";
 
 const useStyles = makeStyles({
@@ -13,14 +14,18 @@ const useStyles = makeStyles({
 });
 
 export type RowData = {
-    name: string,
-    now_member: number,
-    member_limit: number,
+    id: number | null;
+    name: string;
+    ageLower: number | null;
+    ageUpper: number | null;
     gender: 'all' | 'male' | 'female',
-    age_lower: number,
-    age_upper: number,
-    tags: string[],
-    roomId: string,
+    now_member: number | null;
+    memberLimit: number | null;
+    introduction: string
+    tags: Array<{
+        id: number | null,
+        name: string
+    }>
 }
 
 export default function Home() {
@@ -28,23 +33,21 @@ export default function Home() {
     const classes = useStyles()
     const dispatch = useDispatch()
     const user = useSelector(getUser).user
+    const rooms: Array<roomState> = useSelector(getRooms).rooms
 
-    const rowsData: Array<RowData>
-        = [
-            { name: '1の部屋', now_member: 9, member_limit: 10, gender: 'all', age_lower: 18, age_upper: 60, tags: ['movie', 'drama'], roomId: '1' },
-            { name: '2の部屋', now_member: 9, member_limit: 10, gender: 'all', age_lower: 18, age_upper: 60, tags: ['movie', 'drama'], roomId: '2' },
-            { name: '3の部屋', now_member: 8, member_limit: 10, gender: 'all', age_lower: 18, age_upper: 60, tags: ['movie', 'drama'], roomId: '3' },
-            { name: '4の部屋', now_member: 9, member_limit: 10, gender: 'all', age_lower: 18, age_upper: 60, tags: ['movie', 'drama', 'baseball'], roomId: '4' },
-            { name: '5の部屋', now_member: 9, member_limit: 10, gender: 'all', age_lower: 18, age_upper: 60, tags: ['movie', 'basketball'], roomId: '5' },
-            { name: '6の部屋', now_member: 6, member_limit: 10, gender: 'all', age_lower: 18, age_upper: 60, tags: ['movie', 'drama'], roomId: '6' },
-            { name: '7の部屋', now_member: 9, member_limit: 10, gender: 'all', age_lower: 18, age_upper: 60, tags: ['movie', 'drama'], roomId: '7' },
-            { name: '8の部屋', now_member: 9, member_limit: 10, gender: 'all', age_lower: 18, age_upper: 60, tags: ['movie', 'talk'], roomId: '8' },
-        ];
-
+    const [rowsData, setRowsData] = useState<Array<RowData>>([])
 
     useEffect(() => {
         console.log(user)
-    }, [])
+
+        if (!rooms.length) { // roomsに値が入っていないとき
+            dispatch(fetchRoom())
+        } else {
+            rooms.map((room: roomState) => (
+                setRowsData([{ ...room, now_member: 1 }])
+            ))
+        }
+    }, [rooms])
 
     return (
         <div className='w-full h-screen bg-yellow-50' >
