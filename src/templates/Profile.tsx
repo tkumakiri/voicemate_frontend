@@ -6,9 +6,8 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
-import { CollectionsOutlined } from '@mui/icons-material';
-
-
+import TextField from "@material-ui/core/TextField";
+import Grid from '@mui/material/Grid';
 
 
 export default function Profile() {
@@ -18,6 +17,7 @@ export default function Profile() {
     }
     const dispatch = useDispatch()
     const [tag, setTags] = useState<tagType[]>([{ id: -1, name: '' }])
+    const [tagname, setTagname] = useState('')
     const user = useSelector(getUser).user
     const user_tags: number[] = []
 
@@ -36,7 +36,6 @@ export default function Profile() {
         user_tags.push(tag.id)
         console.log(user_tags)
     })
-
 
     const checkedID: number[] = []
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, id: number) => {
@@ -72,14 +71,24 @@ export default function Profile() {
             .catch(err => {
                 console.log(err)
             })
-        axios.get('http://localhost:8000/users/1')
+    };
+
+    const setValue = (newtagName: string) => {
+        setTagname(newtagName)
+    }
+
+    const postTags = () => {
+        const data = new FormData()
+
+        data.append('name', tagname)
+        axios.post('http://localhost:8000/tags', data)
             .then(res => {
-                console.log(res.data)
+                console.log(res)
             })
             .catch(err => {
                 console.log(err)
             })
-    };
+    }
 
     return (
         <div className="w-full h-screen bg-yellow-50">
@@ -87,9 +96,13 @@ export default function Profile() {
             <div className='flex items-center justify-center ' >
                 <img className="mt-8 w-72 h-72 rounded-full" src="https://avatars.githubusercontent.com/u/583231?v=4" />
             </div>
-            <div className="pt-8 flex items-center justify-evenly">
-                <p className='text-3xl' >follows</p>
-                <p className='text-3xl' >followers</p>
+            <div className="pt-8 flex items-center justify-evenly text-center">
+                <p className='text-3xl w-1/2'>follows</p>
+                <p className='text-3xl w-1/2'>followers</p>
+            </div>
+            <div className="pt-3 flex items-center justify-evenly text-center">
+                <p className='text-3xl w-1/2'>100</p>
+                <p className='text-3xl w-1/2'>200</p>
             </div>
             <h2 className="pt-8 text-5xl text-center">趣味</h2>
             <div className='flex items-center justify-center ' >
@@ -97,13 +110,25 @@ export default function Profile() {
                     <p className='m-4 p-2 bg-gray-200 rounded-3xl text-xl' >{tag.name}</p>
                 ))}
             </div>
-            <div>追加タグの選択</div>
-            <FormGroup>
+            <div className="pt-8 text-3xl text-center">タグを選択</div>
+
+            <div className="max-w-full text-center">
                 {tag.map((tag: tagType) => (
-                    <FormControlLabel control={<Checkbox onChange={e => handleChange(e, tag.id)} />} label={tag.name} />
+                    <FormControlLabel className='m-2 p-1 w-48 bg-gray-200' control={<Checkbox onChange={e => handleChange(e, tag.id)} />} label={tag.name} />
                 ))}
-            </FormGroup>
-            <Button onClick={putTags}>追加</Button>
+            </div>
+            <div className="max-w-full text-center">
+                <Button style={{ fontSize: '24px' }} onClick={putTags}>追加</Button>
+            </div>
+
+
+            <div className="pt-8 text-3xl text-center">タグを追加</div>
+            <div className="max-w-full text-center">
+                <TextField name="タグを追加" label="追加したい趣味を記入" onChange={(event) => setValue(event.target.value)}></TextField>
+            </div>
+            <div className="max-w-full text-center">
+                <Button style={{ fontSize: '24px' }} onClick={postTags}>追加</Button>
+            </div>
         </div>
     );
 }
