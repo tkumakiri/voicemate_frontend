@@ -18,6 +18,7 @@ export default function Profile() {
     const dispatch = useDispatch()
     const [tag, setTags] = useState<tagType[]>([{ id: -1, name: '' }])
     const [tagname, setTagname] = useState('')
+    const [username, setUsername] = useState('')
     const user = useSelector(getUser).user
     const user_tags: number[] = []
 
@@ -73,13 +74,33 @@ export default function Profile() {
             })
     };
 
+    const putName = () => {
+        const body = {
+            name: username,
+            email: user.email,
+            password: user.password,
+            tagIDs: user.tagIDs,
+            roomID: user.roomID
+        }
+        console.log(body)
+        axios.put('http://localhost:8000/users/' + user.id, body)
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    };
+
     const setValue = (newtagName: string) => {
         setTagname(newtagName)
+    }
+    const setName = (newuserName: string) => {
+        setUsername(newuserName)
     }
 
     const postTags = () => {
         const data = new FormData()
-
         data.append('name', tagname)
         axios.post('http://localhost:8000/tags', data)
             .then(res => {
@@ -110,6 +131,14 @@ export default function Profile() {
                     <p className='m-4 p-2 bg-gray-200 rounded-3xl text-xl' >{tag.name}</p>
                 ))}
             </div>
+            <div className="pt-8 text-3xl text-center">ユーザー設定</div>
+            <div className="max-w-full text-center">
+                <TextField label="ユーザー名" onChange={(event) => setName(event.target.value)}></TextField>
+            </div>
+            <div className="max-w-full text-center">
+                <Button style={{ fontSize: '24px' }} onClick={putName}>ユーザー名変更</Button>
+            </div>
+
             <div className="pt-8 text-3xl text-center">タグを選択</div>
 
             <div className="max-w-full text-center">
@@ -118,7 +147,7 @@ export default function Profile() {
                 ))}
             </div>
             <div className="max-w-full text-center">
-                <Button style={{ fontSize: '24px' }} onClick={putTags}>追加</Button>
+                <Button style={{ fontSize: '24px' }} onClick={putTags}>タグ変更</Button>
             </div>
 
 
