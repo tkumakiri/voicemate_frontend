@@ -120,6 +120,11 @@ export default function Room() {
                 alert('人数制限で現在入室できません。')
                 history.push('/home')
             } else {
+                const tagIds:any = []
+                nowRoom.tags.map(tag => {
+                    tagIds.push(tag.id)
+                })
+                console.log(tagIds)
                 dispatch(editRoom({
                     id: nowRoom.id,
                     name: nowRoom.name,
@@ -129,7 +134,7 @@ export default function Room() {
                     member: nowRoom.member + 1,
                     memberLimit: nowRoom.memberLimit,
                     introduction: nowRoom.introduction,
-                    tags: nowRoom.tags
+                    tags: tagIds
                 }))
             }
         }
