@@ -198,6 +198,7 @@ export default function QuickFilteringGrid(props: Props) {
 
   React.useEffect(() => {
     setRows(data.rows)
+    console.log(data.rows)
   }, [props.rowsData])
 
   const requestSearch = (searchValue: string) => {

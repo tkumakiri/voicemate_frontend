@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
     key: "root",
     storage: storage,
-    // whitelist: ["user"], userStateだけpersistにすると、プレイ画面でリロードしたときエラーが発生する。
+    whitelist: ["user"],
     // stateReconciler: hardSet,
 };
 const persistedReducer = persistReducer<any, any>(persistConfig, rootReducer);

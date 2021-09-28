@@ -42,6 +42,38 @@ export const initialState: roomsState = {
     }]
 };
 
+export type AddRoomState = {
+    name: string;
+    ageLower: number | null;
+    ageUpper: number | null;
+    gender: string,
+    memberLimit: number | null;
+    introduction: string
+    tags: Array<number> | null
+}
+export const addRoom = createAsyncThunk(
+    "room/addRoom",
+    async (addroom: AddRoomState) => {
+
+        const roomUrl = 'http://localhost:8000/rooms'
+        const response: any = await axios.post(roomUrl, {
+            name: addroom.name,
+            ageLower: addroom.ageLower,
+            ageUpper: addroom.ageUpper,
+            gender: addroom.gender,
+            memberLimit: addroom.memberLimit,
+            introduction: addroom.introduction,
+            tags: addroom.tags
+        })
+            .catch((e) => {
+                console.log(e)
+            });
+
+        return response.data
+
+    }
+);
+
 export const fetchRoom = createAsyncThunk(
     "room/fetchRoom",
     async () => {
@@ -53,7 +85,7 @@ export const fetchRoom = createAsyncThunk(
 
 // State, Reducer, Action を一気に生成する
 const roomsSlice = createSlice({
-    name: "user", //スライスの名前を設定
+    name: "rooms", //スライスの名前を設定
     initialState, //stateの初期値を設定
     reducers: {
         // updateUserState: (state: userState, action: any) => ({
@@ -63,6 +95,9 @@ const roomsSlice = createSlice({
         // }),
     },
     extraReducers: (builder) => {
+        builder.addCase(addRoom.fulfilled, (state, action: any) =>
+            void state.rooms.push(action.payload)
+        );
         builder.addCase(fetchRoom.fulfilled, (state, action: any) => {
             state.rooms = action.payload; // payloadCreatorでreturnされた値
             console.log('部屋取得')
