@@ -33,10 +33,16 @@ export default function Profile() {
                 console.log(err)
             })
     }, [])
-    user.tags.map((tag: tagType) => {
-        user_tags.push(tag.id)
-        console.log(user_tags)
-    })
+    if(user.tags != null){
+        user.tags.map((tag: tagType) => {
+            user_tags.push(tag.id)
+            console.log(user_tags)
+        })
+    }
+    else{
+        
+    }
+    
 
     const checkedID: number[] = []
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, id: number) => {
