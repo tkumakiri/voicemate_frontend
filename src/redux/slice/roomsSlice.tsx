@@ -10,6 +10,7 @@ export type roomState = {
     ageLower: number | null;
     ageUpper: number | null;
     gender: 'all' | 'male' | 'female',
+    member: number | null;
     memberLimit: number | null;
     introduction: string
     tags: Array<{
@@ -31,6 +32,7 @@ export const initialState: roomsState = {
         ageLower: null,
         ageUpper: null,
         gender: "all",
+        member: null,
         memberLimit: null,
         introduction: "",
         tags: [
@@ -42,6 +44,49 @@ export const initialState: roomsState = {
     }]
 };
 
+
+export type EditRoom = {
+
+    id: number | null;
+    name: string;
+    ageLower: number | null;
+    ageUpper: number | null;
+    gender: string,
+    member: number;
+    memberLimit: number;
+    introduction: string
+    tags: Array<{
+        id: number | null,
+        name: string
+    }>
+
+}
+
+
+export const editRoom = createAsyncThunk(
+    "user/editRoom",
+    async (editroom: EditRoom) => {
+
+        const roomUrl = 'http://localhost:8000/rooms/' + editroom.id
+        const response: any = await axios.put(roomUrl, {
+            name: editroom.name,
+            ageLower: editroom.ageLower,
+            ageUpper: editroom.ageUpper,
+            gender: editroom.gender,
+            member: editroom.member,
+            memberLimit: editroom.memberLimit,
+            introduction: editroom.introduction,
+            tags: editroom.tags
+        })
+            .catch((e) => {
+                console.log(e)
+            });
+
+        return response.data
+    }
+);
+
+
 export type AddRoomState = {
     name: string;
     ageLower: number | null;
@@ -51,6 +96,7 @@ export type AddRoomState = {
     introduction: string
     tags: Array<number> | null
 }
+
 export const addRoom = createAsyncThunk(
     "room/addRoom",
     async (addroom: AddRoomState) => {
@@ -103,6 +149,15 @@ const roomsSlice = createSlice({
             console.log('部屋取得')
             console.log(state.rooms)
         });
+        builder.addCase(editRoom.fulfilled, (state, action: any) => {
+            console.log('部屋更新')
+            console.log(action.payload)
+        });
+        builder.addCase(editRoom.rejected, (state, action: any) => {
+            console.log(action.error)
+        });
+
+
 
     },
 });

@@ -50,6 +50,7 @@ const useStyles = makeStyles(
           backgroundColor: '#ffcc80',
         },
         backgroundColor: '#fff3e0',
+        maxHeight: 850
       }
     }),
   { defaultTheme },
@@ -117,7 +118,7 @@ function createData(
 ): DataWithId {
   const id = index
   const name = rowData.name
-  const member = rowData.memberLimit + '人中 ' + rowData.now_member + '人';
+  const member = rowData.memberLimit + '人中 ' + rowData.member + '人';
   const gender = rowData.gender
   const age = rowData.ageLower + '歳 ~ ' + rowData.ageUpper + ' 歳'
   const tags = rowData.tags.map((tag) => (
@@ -139,6 +140,7 @@ type AllData = {
 export default function QuickFilteringGrid(props: Props) {
   const classes = useStyles()
   const history = useHistory()
+
   const columns: GridColDef[] = [
     {
       field: 'name', headerName: 'Name', headerAlign: 'center', headerClassName: 'header', minWidth: 500, align: 'center'
@@ -218,7 +220,6 @@ export default function QuickFilteringGrid(props: Props) {
 
       <DataGrid
         className={classes.dataGrid}
-        autoHeight={true}
         components={{ Toolbar: QuickSearchToolbar }}
         rows={rows}
         columns={data.columns}
@@ -229,6 +230,8 @@ export default function QuickFilteringGrid(props: Props) {
             clearSearch: () => requestSearch(''),
           }
         }}
+        rowHeight={70}
+        rowsPerPageOptions={[10, 25, 100]}
       />
     </div>
   );

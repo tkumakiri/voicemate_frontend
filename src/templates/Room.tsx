@@ -7,18 +7,39 @@ import Stack from '@mui/material/Stack';
 import { Autocomplete, Box, Paper } from '@material-ui/core';
 import TextField from '@mui/material/TextField';
 import { borderColor, textAlign } from '@mui/system';
-import { useParams, useRouteMatch } from 'react-router';
+import { useHistory, useParams, useRouteMatch } from 'react-router';
 import { SkyWay } from '.';
 import { AlertDialog } from '../components/molucules';
+import { useDispatch, useSelector } from 'react-redux';
+import { editRoom, roomState } from '../redux/slice/roomsSlice';
+import axios from 'axios';
 
 const theme = createTheme();
 
 export default function Room() {
-
+    const dispatch = useDispatch()
+    const history = useHistory()
     const roomId: { roomId: string } = useParams()
     const match = useRouteMatch()
+    const [nowRoom, setNowRoom] = React.useState<roomState>({
+        id: null,
+        name: "",
+        ageLower: null,
+        ageUpper: null,
+        gender: "all",
+        member: null,
+        memberLimit: null,
+        introduction: "",
+        tags: [
+            {
+                id: null,
+                name: ""
+            }
+        ]
+    })
     const [open, setOpen] = React.useState(false);
     const [start, setStart] = React.useState(false);
+
     const handleDialogOpen = () => {
         setOpen(true);
     };
@@ -26,6 +47,8 @@ export default function Room() {
         setOpen(false);
         setStart(true);
     };
+
+
 
     type Users = {
         uid: string
@@ -79,8 +102,39 @@ export default function Room() {
     ]
 
     React.useEffect(() => {
+
+        const fetchRoomById = async () => {
+            const roomUrl = 'http://localhost:8000/rooms/' + roomId.roomId
+            const response: any = await axios({ method: 'get', url: roomUrl })
+            setNowRoom(response.data)
+        }
+        fetchRoomById()
+
+
         handleDialogOpen()
     }, [])
+    React.useEffect(() => {
+        console.log(nowRoom)
+        if (nowRoom.member !== null && nowRoom.memberLimit !== null) {
+            if (nowRoom.member >= nowRoom.memberLimit) {
+                alert('人数制限で現在入室できません。')
+                history.push('/home')
+            } else {
+                dispatch(editRoom({
+                    id: nowRoom.id,
+                    name: nowRoom.name,
+                    ageLower: nowRoom.ageLower,
+                    ageUpper: nowRoom.ageUpper,
+                    gender: nowRoom.gender,
+                    member: nowRoom.member + 1,
+                    memberLimit: nowRoom.memberLimit,
+                    introduction: nowRoom.introduction,
+                    tags: nowRoom.tags
+                }))
+            }
+        }
+
+    }, [nowRoom.member])
 
 
     return (

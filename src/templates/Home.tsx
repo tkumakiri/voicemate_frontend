@@ -19,7 +19,7 @@ export type RowData = {
     ageLower: number | null;
     ageUpper: number | null;
     gender: 'all' | 'male' | 'female',
-    now_member: number | null;
+    member: number | null;
     memberLimit: number | null;
     introduction: string
     tags: Array<{
@@ -35,21 +35,11 @@ export default function Home() {
     const user = useSelector(getUser).user
     const rooms: Array<roomState> = useSelector(getRooms).rooms
 
-    const [rowsData, setRowsData] = useState<Array<RowData>>([])
-
     useEffect(() => {
-        console.log(user)
-        console.log(rooms)
 
-        if (!rooms[0].id) { // roomsに値が入っていないとき
-            dispatch(fetchRoom())
-            console.log('a')
-        } else {
-            setRowsData(rooms.map((room: roomState) => {
-                return { ...room, now_member: 1 }
-            }))
-        }
-    }, [rooms])
+        dispatch(fetchRoom())
+
+    }, [])
 
     return (
         <div className='w-full h-screen bg-yellow-50' >
@@ -76,7 +66,7 @@ export default function Home() {
                 </Button>
             </div>
             <div className='pl-8 text-xl font-bold'>人気の部屋一覧</div>
-            <StickyHeadTable rowsData={rowsData} />
+            <StickyHeadTable rowsData={rooms} />
 
         </div>
     );

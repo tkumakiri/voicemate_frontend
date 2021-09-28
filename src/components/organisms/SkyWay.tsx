@@ -113,7 +113,6 @@ const SkyWay = (props: Props) => {
         setIsStarted((prev) => !prev);
         console.log(peer.current.id)
     };
-    console.log(room)
 
     const onEnd = () => {
 

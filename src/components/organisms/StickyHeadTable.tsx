@@ -77,7 +77,7 @@ function createData(
     rowData: RowData
 ): Data {
     const name = rowData.name
-    const member = rowData.memberLimit + '人中 ' + rowData.now_member + '人';
+    const member = rowData.memberLimit + '人中 ' + rowData.member + '人';
     const gender = rowData.gender
     const age = rowData.ageLower + '歳 ~ ' + rowData.ageUpper + ' 歳'
     const tags = rowData.tags.map((tag) => (

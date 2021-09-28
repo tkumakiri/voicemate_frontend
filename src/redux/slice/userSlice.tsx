@@ -63,7 +63,6 @@ export const editUser = createAsyncThunk(
     "user/editUser",
     async (edituser: edituser) => {
 
-
         const userUrl = 'http://localhost:8000/users'
         const response: any = await axios.put(userUrl, {
             id: edituser.id,
@@ -77,7 +76,6 @@ export const editUser = createAsyncThunk(
             .catch((e) => {
                 console.log(e)
             });
-
         return response.data
 
     }

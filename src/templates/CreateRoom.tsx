@@ -25,6 +25,8 @@ export default function CreateRoom() {
     const [gender, setGender] = useState('all');
     const [tags, setTags] = useState<string[]>([]);
 
+    const [name, setName] = useState('')
+
     const [allTags, setAllTags] = useState<Array<{ id: number, name: string }>>([])
 
     useEffect(() => {
@@ -114,7 +116,12 @@ export default function CreateRoom() {
     };
     return (
         <div className="w-full h-screen bg-yellow-50 ">
-            <div className="pt-12 text-center  text-3xl">部屋をつくる</div>
+            <div className='pt-12 flex' >
+                <Button style={{ marginLeft: 32 }} onClick={() => history.push('/home')} ><p className={'text-xl text-right'} >voicemate</p></Button>
+                <div className=" m-auto text-center  text-3xl">部屋をつくる</div>
+                <Button style={{ marginRight: 32 }} onClick={() => history.push('/searchroom')}><p className='text-xl text-right' >部屋をさがす</p></Button>
+
+            </div>
             <div className=''>
                 <Box
                     style={{
