@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
     key: "root",
     storage: storage,
-    whitelist: ["user"],
+    // whitelist: ["user"],
     // stateReconciler: hardSet,
 };
 const persistedReducer = persistReducer<any, any>(persistConfig, rootReducer);

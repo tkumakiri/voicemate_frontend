@@ -6,10 +6,9 @@ import { useDispatch } from "react-redux";
 
 export type userState = {
     user: {
-        id: string;
+        id: number;
         name: string;
         email: string;
-        isSignedIn: boolean;
         age: number | null;
         gender: 'all' | 'male' | 'female'
         roomID: string
@@ -23,10 +22,9 @@ export type userState = {
 
 export const initialState: userState = {
     user: {
-        id: '',
+        id: 0,
         name: '',
         email: '',
-        isSignedIn: false,
         age: null,
         gender: 'all',
         roomID: '',
@@ -42,11 +40,48 @@ export type fetchuser = {
 };
 
 export type adduser = {
-    username: string;
+    name: string;
     email: string;
     password: string;
-    confirmPassword: string;
 };
+
+export type edituser = {
+    id: number;
+    name: string;
+    email: string;
+    age: number | null;
+    gender: 'all' | 'male' | 'female'
+    roomID: string
+    tags: Array<{
+        id: number,
+        name: string
+    }>
+};
+
+
+export const editUser = createAsyncThunk(
+    "user/editUser",
+    async (edituser: edituser) => {
+
+
+        const userUrl = 'http://localhost:8000/users'
+        const response: any = await axios.put(userUrl, {
+            id: edituser.id,
+            name: edituser.name,
+            email: edituser.email,
+            age: edituser.age,
+            gender: edituser.gender,
+            roomID: edituser.roomID,
+            tags: edituser.tags
+        })
+            .catch((e) => {
+                console.log(e)
+            });
+
+        return response.data
+
+    }
+);
 
 
 
@@ -54,8 +89,20 @@ export type adduser = {
 export const addUser = createAsyncThunk(
     "user/addUser",
     async (adduser: adduser) => {
-        const { username, email, password, confirmPassword } = adduser;
 
+        const data = new FormData()
+
+        data.append('name', adduser.name)
+        data.append('email', adduser.email)
+        data.append('password', adduser.password)
+
+        const userUrl = 'http://localhost:8000/users'
+        const response: any = await axios.post(userUrl, data)
+            .catch((e) => {
+                console.log(e)
+            });
+
+        return response.data
 
     }
 );
@@ -65,9 +112,12 @@ export const fetchUser = createAsyncThunk(
     async (fetchuser: fetchuser, thunkAPI) => {
         const { email, password } = fetchuser;
 
-        const userUrl = 'http://localhost:8000/users/1'
+        const userUrl = 'http://localhost:8000/users'
 
-        const response: any = await axios({ method: 'get', url: userUrl })
+        const response: any = await axios.get(userUrl, { headers: { Email: email, Password: password } })
+            .catch((e) => {
+                console.log(e)
+            })
 
         return response.data
 
@@ -95,6 +145,10 @@ const userSlice = createSlice({
         });
         builder.addCase(fetchUser.fulfilled, (state, action: any) => {
             state.user = action.payload; // payloadCreatorでreturnされた値
+        });
+        builder.addCase(editUser.fulfilled, (state, action: any) => {
+            state.user = action.payload; // payloadCreatorでreturnされた値
+            console.log('編集完了しました！')
         });
     },
 });
