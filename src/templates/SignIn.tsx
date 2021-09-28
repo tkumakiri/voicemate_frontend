@@ -55,9 +55,9 @@ export default function SignIn() {
                                 alignItems: 'center',
                             }}
                         >
-                            <Avatar style={{ margin: 1, backgroundColor: 'secondary.main' }}>
-                                Lock
-                            </Avatar>
+                            <Button style={{ marginBottom: 32 }} href='/' >
+                                <p className='text-3xl' >voicemate</p>
+                            </Button>
                             <Typography component="h1" variant="h5">
                                 Sign in
                             </Typography>

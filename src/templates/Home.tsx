@@ -1,9 +1,9 @@
 import { Button } from "@material-ui/core";
 import { makeStyles } from '@mui/styles';
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { StickyHeadTable } from "../components/organisms";
-import { getUser } from "../redux/slice/userSlice";
+import { getUser, initialState, updateUserState } from "../redux/slice/userSlice";
 
 const useStyles = makeStyles({
     button: {
@@ -26,6 +26,7 @@ export type RowData = {
 export default function Home() {
 
     const classes = useStyles()
+    const dispatch = useDispatch()
     const user = useSelector(getUser).user
 
     const rowsData: Array<RowData>
@@ -50,6 +51,9 @@ export default function Home() {
             <div className="flex justify-end ml-16" >
                 <Button style={{ width: 200, height: 40 }} href="/profile">
                     <p className="text-xl">{user.name}</p>
+                </Button>
+                <Button style={{ width: 120, height: 40, marginRight: 32 }} onClick={() => dispatch(updateUserState({ ...initialState.user }))} >
+                    <p className="text-xl">ログアウト</p>
                 </Button>
             </div>
             <div className="flex items-center justify-center">

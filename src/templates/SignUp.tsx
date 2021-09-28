@@ -40,9 +40,9 @@ export default function SignUp() {
                                 alignItems: 'center',
                             }}
                         >
-                            <Avatar style={{ margin: 1, backgroundColor: 'secondary.main' }}>
-                                LockOutLinedIcon
-                            </Avatar>
+                            <Button style={{ margin: 32 }} href='/' >
+                                <p className='text-3xl' >voicemate</p>
+                            </Button>
                             <Typography component="h1" variant="h5">
                                 Sign up
                             </Typography>
