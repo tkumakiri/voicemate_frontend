@@ -21,6 +21,7 @@ export default function Profile() {
     const history = useHistory()
     const user = useSelector(getUser).user
 
+
     useEffect(() => {
         console.log(user)
         if (user.id) {

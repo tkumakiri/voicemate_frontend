@@ -67,25 +67,38 @@ export default function CreateRoom() {
         // eslint-disable-next-line no-console
 
         if (tags.length > 0) {
-            const selectedTagsId = tags.map((tag) =>
+            // const selectedTagsId = tags.map((tag) =>
+            //     allTags.map((alltag) => {
+            //         if (alltag.name == tag) {
+            //             return alltag.id
+            //         } else {
+            //             return -1
+            //         }
+            //     })
+            // )
+            // console.log(selectedTagsId)
+            // const tagIds = selectedTagsId[0].filter((tag) => tag !== -1)
+            // console.log(tagIds)
+            
+            const selectedTagsId:number[] = []
+
+            tags.map((tag) =>
                 allTags.map((alltag) => {
                     if (alltag.name == tag) {
-                        return alltag.id
-                    } else {
-                        return -1
+                        selectedTagsId.push(alltag.id)
                     }
                 })
             )
-
-            const tagIds = selectedTagsId[0].filter((tag) => tag !== -1)
-
+            // const tagIds = selectedTagsId[0].filter((tag) => tag !== -1)
+            const tagIds = selectedTagsId
+            console.log(tagIds)
 
             dispatch(addRoom({
                 name: data.get('room_name') as string,
                 ageLower: Number(data.get('age_lower') as string),
                 ageUpper: Number(data.get('age_upper') as string),
                 gender: gender,
-                memberLimit: Number(data.get('message_limit') as string),
+                memberLimit: Number(data.get('menber_limit') as string),
                 introduction: data.get('introduction') as string,
                 tags: tagIds
             }))
@@ -95,7 +108,7 @@ export default function CreateRoom() {
                 ageLower: Number(data.get('age_lower') as string),
                 ageUpper: Number(data.get('age_upper') as string),
                 gender: gender,
-                memberLimit: Number(data.get('message_limit') as string),
+                memberLimit: Number(data.get('menber_limit') as string),
                 introduction: data.get('introduction') as string,
                 tags: null
             }))

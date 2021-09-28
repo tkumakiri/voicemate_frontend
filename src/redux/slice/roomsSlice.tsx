@@ -76,7 +76,7 @@ export const editRoom = createAsyncThunk(
             member: editroom.member,
             memberLimit: editroom.memberLimit,
             introduction: editroom.introduction,
-            tags: editroom.tags
+            tagIDs: editroom.tags
         })
             .catch((e) => {
                 console.log(e)
@@ -99,8 +99,8 @@ export type AddRoomState = {
 
 export const addRoom = createAsyncThunk(
     "room/addRoom",
-    async (addroom: AddRoomState) => {
-
+    async (addroom: any) => {
+        console.log(addroom.tags)
         const roomUrl = 'http://localhost:8000/rooms'
         const response: any = await axios.post(roomUrl, {
             name: addroom.name,
@@ -109,14 +109,13 @@ export const addRoom = createAsyncThunk(
             gender: addroom.gender,
             memberLimit: addroom.memberLimit,
             introduction: addroom.introduction,
-            tags: addroom.tags
+            tagIDs: addroom.tags
         })
             .catch((e) => {
                 console.log(e)
             });
 
         return response.data
-
     }
 );
 
@@ -141,9 +140,9 @@ const roomsSlice = createSlice({
         // }),
     },
     extraReducers: (builder) => {
-        builder.addCase(addRoom.fulfilled, (state, action: any) =>
-            void state.rooms.push(action.payload)
-        );
+        builder.addCase(addRoom.fulfilled, (state, action: any) => {
+            // void state.rooms.push(action.payload)
+        });
         builder.addCase(fetchRoom.fulfilled, (state, action: any) => {
             state.rooms = action.payload; // payloadCreatorでreturnされた値
             console.log('部屋取得')
