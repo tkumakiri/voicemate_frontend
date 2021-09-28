@@ -12,19 +12,33 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Footer } from '../components/organisms';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUser, getUser } from '../redux/slice/userSlice';
+import { useHistory } from 'react-router';
 
 const theme = createTheme();
 
 export default function SignUp() {
+    const dispatch = useDispatch()
+    const user = useSelector(getUser).user
+    const history = useHistory()
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         // eslint-disable-next-line no-console
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        // if(data.get('password') != data.get(''))
+
+        const name: string = data.get('firstName') as string + ' ' + data.get('lastName')
+
+        dispatch(addUser({ name: name, email: data.get('email') as string, password: data.get('password') as string }))
     };
+
+    React.useEffect(() => {
+        console.log(user)
+        if (user.id) {
+            history.push('/home')
+        }
+    }, [user])
 
     return (
         <div className='w-full h-screen bg-yellow-50' >
@@ -95,23 +109,13 @@ export default function SignUp() {
                                             autoComplete="new-password"
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox
-                                                    value="allowExtraEmails"
-                                                    color="primary"
-                                                />
-                                            }
-                                            label="I want to receive inspiration, marketing promotions and updates via email."
-                                        />
-                                    </Grid>
+
                                 </Grid>
                                 <Button
                                     type="submit"
                                     fullWidth
                                     variant="contained"
-                                    style={{ marginTop: 3, marginBottom: 2 }}
+                                    style={{ marginTop: 20, marginBottom: 2 }}
                                 >
                                     Sign Up
                                 </Button>
